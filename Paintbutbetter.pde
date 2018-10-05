@@ -19,6 +19,8 @@ color W = color(255,255,255);
 color Y = color(255, 221, 0);
 color P = color(165, 30, 255);
 color O = color(211,70,13);
+color Cy = color(8, 195, 224);
+color Pk = color(224, 7, 148);
 
 color Rb = color(mouseX/10 + 40,mouseY/5 +2, mouseX*mouseY/50); //Rainbow Variable
 
@@ -43,6 +45,10 @@ int rainbowX = 100;
 int rainbowY = 530;
 int orangeX = 20;
 int orangeY = 490;
+int cyanX = 60;
+int cyanY = 490;
+int pinkX = 100;
+int pinkY = 490;
 
 int weightpX = 280; //For strokeWeight changer
 int weightpY = 530;
@@ -55,12 +61,13 @@ int smoothpX = 200;
 int smoothpY = 530;
 
 int textX = 135; // For Position of Smoothness Meter Text
-int textY = 500;
-int sIndicX = 165;
-int sIndicY = 515;
+int textY = 485;
+
+int sIndicX = 165;//For the position of the Smoothness Number
+int sIndicY = 500;
 
 int thickX = 260; //"Thickness" Title
-int thickY = 500;
+int thickY = 485;
 
 int prevX = 280;
 int prevY = 440;
@@ -73,7 +80,7 @@ void setup()
   noStroke();
   size(1200,600);
   rectMode(CENTER);
-  F = createFont("Ariel", 16, true); //Smoothness Indicator Font
+  F = createFont("Arial", 16, true); //Smoothness Indicator Font
   
 }
 
@@ -190,6 +197,12 @@ void draw()
   fill(O);//orange
   rect(orangeX,orangeY,30,30);
   
+  fill(Cy); //cyan
+  rect(cyanX,cyanY,30,30);
+  
+  fill(Pk); //pink
+  rect(pinkX,pinkY,30,30);
+  
   fill(255,255,255); //Clear Button
   rect(clearX,clearY,30,30);
   line(clearX - 10,clearY - 10, clearX +10, clearY + 10);
@@ -209,6 +222,7 @@ void draw()
 }
 
 void mousePressed() {
+  //Color Changer
 
   if (mouseX > (redX - 15) && mouseX < (redX + 15) && mouseY > (redY - 15) && mouseY < (redY + 15)) {
     C = R;
@@ -252,6 +266,14 @@ void mousePressed() {
   }
   if (mouseX > (orangeX - 15) && mouseX < (orangeX + 15) && mouseY > (orangeY - 15) && mouseY < (orangeY + 15)) {
   C = O;
+  rainbow = false;
+  }
+  if (mouseX > (cyanX - 15) && mouseX < (cyanX + 15) && mouseY > (cyanY - 15) && mouseY < (cyanY + 15)) {
+  C = Cy;
+  rainbow = false;
+  }
+  if (mouseX > (pinkX - 15) && mouseX < (pinkX + 15) && mouseY > (pinkY - 15) && mouseY < (pinkY + 15)) {
+  fill(C);
   rainbow = false;
   }
   }
