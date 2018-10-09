@@ -50,6 +50,9 @@ int cyanY = 490;
 int pinkX = 100;
 int pinkY = 490;
 
+int quitX = 1170; //For Quit Button
+int quitY = 30;
+
 int weightpX = 280; //For strokeWeight changer
 int weightpY = 530;
 int weightmX = 280;
@@ -208,6 +211,11 @@ void draw()
   line(clearX - 10,clearY - 10, clearX +10, clearY + 10);
   line(clearX + 10,clearY - 10, clearX -10, clearY + 10);
   
+  stroke(255,0,0); //quit button
+  rect(quitX, quitY,30,30);
+  line(quitX - 10,quitY - 10, quitX +10, quitY + 10);
+  line(quitX + 10,quitY - 10, quitX -10, quitY + 10);
+  
   stroke(160,160,160); //Weight changer maker (+)
   line(weightpX-15,weightpY,weightpX+15,weightpY);
   line(weightpX,weightpY-15,weightpX,weightpY+15);
@@ -273,7 +281,11 @@ void mousePressed() {
   rainbow = false;
   }
   if (mouseX > (pinkX - 15) && mouseX < (pinkX + 15) && mouseY > (pinkY - 15) && mouseY < (pinkY + 15)) {
-  fill(C);
+  C = Pk;
+  rainbow = false;
+  }
+  if (mouseX > (quitX - 15) && mouseX < (quitX + 15) && mouseY > (quitY - 15) && mouseY < (quitY + 15)) {
+  exit();
   rainbow = false;
   }
   }
