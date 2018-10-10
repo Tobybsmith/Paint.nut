@@ -3,12 +3,27 @@ float y1 = mouseY;
 float x2;
 float y2;
 float speed;
+float cw;
+
+float cx1;
+float cy1;
+float cx2;
+float cy2;
+float ccx;
+float ccy;
+
+
+boolean circle1 = false;
+boolean circle2 = false;
+boolean circle1a = false;
+boolean circle2a = false;
+boolean circlefinished = false;
 
 boolean rainbow = false;
 
 boolean down = false;
 
-float smoothness = 1;
+int smoothness = 1;
 
 color B = color(0,0,255); //Colour Variables
 color R = color(255,0,0);
@@ -17,12 +32,15 @@ color C = color(0,0,0);
 color Bl = color(0,0,0);
 color W = color(255,255,255);
 color Y = color(255, 221, 0);
-color P = color(165, 30, 255);
+color P = color(122, 66, 255);
 color O = color(211,70,13);
 color Cy = color(8, 195, 224);
 color Pk = color(224, 7, 148);
+color Dg = color(12, 91, 16);
+color Br = color(89, 29, 6);
+color T = color(99, 95, 89);
 
-color Rb = color(mouseX/10 + 40,mouseY/5 +2, mouseX*mouseY/50); //Rainbow Variable
+color Rb;
 
 int greenX = 100; //Coloured Box Loaction Variables
 int greenY = 570;
@@ -36,7 +54,6 @@ int blackX = 160;
 int blackY = 570;
 int whiteX = 200;
 int whiteY = 570;
-int weight = 5;
 int yellowX = 20;
 int yellowY = 530;
 int purpleX = 60;
@@ -49,6 +66,17 @@ int cyanX = 60;
 int cyanY = 490;
 int pinkX = 100;
 int pinkY = 490;
+int dgreenX = 20;
+int dgreenY = 450;
+int brownX = 60;
+int brownY = 450;
+int taupeX = 100;
+int taupeY = 450;
+
+int circleX = 160;
+int circleY = 450;
+
+int weight = 5; //For strokeWeight Changes Later
 
 int quitX = 1170; //For Quit Button
 int quitY = 30;
@@ -58,22 +86,23 @@ int weightpY = 530;
 int weightmX = 280;
 int weightmY = 570;
 
-int smoothmX = 160; // For Smoothness Changer
+int smoothmX = 160; //For Smoothness Changer
 int smoothmY = 530;
 int smoothpX = 200;
 int smoothpY = 530;
 
-int textX = 135; // For Position of Smoothness Meter Text
-int textY = 485;
-
-int sIndicX = 165;//For the position of the Smoothness Number
-int sIndicY = 500;
+int textX = 135; // For Position of Smoothness Meter
+int textY = 500;
+int sIndicX = 176;
+int sIndicY = 515;
+int parabX = 180;
+int parabY = 510;
 
 int thickX = 260; //"Thickness" Title
 int thickY = 485;
 
-int prevX = 280;
-int prevY = 440;
+int prevX = 280; //Brush preview
+int prevY = 470;
 
 PFont F;
 
@@ -89,7 +118,27 @@ void setup()
 
 void draw()
 { 
-  Rb = color(255-mouseX+60+speed,255-mouseY+20+speed,255-speed+60);
+  //if(circle1 == true){
+  //background(0, 0, 255);
+  //}
+  if (circle1a == true) {
+    circle1 = true;
+    circle1a = false;
+  }
+  if (circle2a == true) {
+    circle2 = true;
+    circle2a = false;
+  }
+  ccx = (cx1 + cx2)/2;
+  ccy = (cy1 + cy2)/2;
+  cw = sqrt( sq(cx1-cx2) + sq(cy1-cy2));
+  if (circlefinished == true) {  
+    fill(C);
+    ellipse(ccx,ccy,cw,cw);
+    fill(255,255,255);
+    circlefinished = false;
+  }
+  Rb = color(255-mouseX+60+speed,255-mouseY+20+speed,255-speed+60); //How the Rainbow Brush Chooses Colour
   //Rb = color(sq(speed),sqrt(speed)*15,mouseX*mouseY/1000);
   speed = sqrt(sq(x2 - mouseX) + sq(y2 - mouseY));
   
@@ -151,6 +200,11 @@ void draw()
   stroke(160,160,160);
   rect(0,600,650,400);
   
+  stroke(0,0,0);
+  ellipse(parabX,parabY,30,smoothness+10);
+  stroke(0,0,0,0);
+  rect(parabX,parabY+50,200,100);
+  
   fill(255,255,255);
   stroke(0,0,0,0);
   ellipse(prevX,prevY,weight+3,weight+3);
@@ -162,56 +216,72 @@ void draw()
     fill (C);
   }
   
-  textFont(F, 10); //Smoothness Indicator
-  fill(0);
-  text("Smoothness Indicator", textX, textY); //Title of smoothness inicator
+  fill(0,0,0);
   text(smoothness, sIndicX, sIndicY); //Smoothness text and numbering system
   
-  text("Thickness", thickX, thickY);//"Thickness" Title
-  
+  if (rainbow ==true) {
+    fill(Rb);
+  }
+  else {
+    fill(C);
+  }
   ellipse(prevX,prevY,weight,weight);
   
+   //Colour Picker
+  
   stroke(160,160,160); 
-  //Colour Picker
-  fill(R);//red
+ 
+  fill(R);//Red
   rect(redX, redY, 30, 30);
   
-  fill(G);//green
+  fill(G);//Green
   rect(greenX, greenY, 30, 30);
   
-  fill(B);//blue
+  fill(B);//Blue
   rect(blueX, blueY, 30, 30);
   
-  fill(Bl);//black
+  fill(Bl);//Black
   rect(blackX, blackY, 30, 30);
   
-  fill(W);//white
+  fill(W);//White
   rect(whiteX, whiteY, 30, 30);
   
-  fill(Y);//yellow
+  fill(Y);//Yellow
   rect(yellowX, yellowY, 30, 30);
   
-  fill(P);//purple
+  fill(P);//Purple
   rect(purpleX,purpleY,30,30);
   
-  fill(Rb);//rainbow
+  fill(Rb);//Rainbow
   rect(rainbowX,rainbowY,30,30);
   
-  fill(O);//orange
+  fill(O);//Orange
   rect(orangeX,orangeY,30,30);
   
-  fill(Cy); //cyan
+  fill(Cy); //Cyan
   rect(cyanX,cyanY,30,30);
   
-  fill(Pk); //pink
+  fill(Pk); //Pink
   rect(pinkX,pinkY,30,30);
+  
+  fill(Dg); //Dark Green
+  rect(dgreenX,dgreenY,30,30);
+  
+  fill(Br); //Brown
+  rect(brownX,brownY,30,30);
+  
+  fill(T); //Taupe
+  rect(taupeX,taupeY,30,30);
+  
+  fill(255); //Circle Tool
+  ellipse(circleX,circleY,30,30);
   
   fill(255,255,255); //Clear Button
   rect(clearX,clearY,30,30);
   line(clearX - 10,clearY - 10, clearX +10, clearY + 10);
   line(clearX + 10,clearY - 10, clearX -10, clearY + 10);
   
-  stroke(255,0,0); //quit button
+  stroke(255,0,0); //Quit button
   rect(quitX, quitY,30,30);
   line(quitX - 10,quitY - 10, quitX +10, quitY + 10);
   line(quitX + 10,quitY - 10, quitX -10, quitY + 10);
@@ -266,12 +336,6 @@ void mousePressed() {
   if (mouseX > (rainbowX - 15) && mouseX < (rainbowX + 15) && mouseY > (rainbowY - 15) && mouseY < (rainbowY + 15)) {
   rainbow = true;
   }
-  if (mouseX > (smoothmX - 15) && mouseX < (smoothmX + 15) && mouseY > (smoothmY - 15) && mouseY < (smoothmY + 15)) {
-     smoothness = (smoothness + 1);
-  }
-  if (mouseX > (smoothpX - 15) && mouseX < (smoothpX + 15) && mouseY > (smoothpY - 15) && mouseY < (smoothpY + 15) && (smoothness != 0)) {
-  smoothness = (smoothness - 1);
-  }
   if (mouseX > (orangeX - 15) && mouseX < (orangeX + 15) && mouseY > (orangeY - 15) && mouseY < (orangeY + 15)) {
   C = O;
   rainbow = false;
@@ -284,13 +348,60 @@ void mousePressed() {
   C = Pk;
   rainbow = false;
   }
-  if (mouseX > (quitX - 15) && mouseX < (quitX + 15) && mouseY > (quitY - 15) && mouseY < (quitY + 15)) {
-  exit();
+  if (mouseX > (dgreenX - 15) && mouseX < (dgreenX + 15) && mouseY > (dgreenY - 15) && mouseY < (dgreenY + 15)) {
+  C = Dg;
   rainbow = false;
   }
+  if (mouseX > (brownX - 15) && mouseX < (brownX + 15) && mouseY > (brownY - 15) && mouseY < (brownY + 15)) {
+  C = Br;
+  rainbow = false;
   }
+  if (mouseX > (taupeX - 15) && mouseX < (taupeX + 15) && mouseY > (taupeY - 15) && mouseY < (taupeY + 15)) {
+  C = T;
+  rainbow = false;
+  }
+  if (mouseX > (circleX - 15) && mouseX < (circleX + 15) && mouseY > (circleY - 15) && mouseY < (circleY + 15)) {
+  circle1a = true;
+  rainbow = false;
+  }
+  
+  if(circle1 == true) {
+    cx1 = mouseX;
+    cy1 = mouseY;
+    circle2a = true;
+    circle1 = false;
+  }
+  if(circle2 == true) {
+    cx2 = mouseX;
+    cy2 = mouseY;
+    circle2 = false;
+    circlefinished = true;
+  }
+  
+
+  
+  if (mouseX > (smoothmX - 15) && mouseX < (smoothmX + 15) && mouseY > (smoothmY - 15) && mouseY < (smoothmY + 15)) {
+     smoothness = (smoothness + 1);
+     if (smoothness > 40) {
+       smoothness = 40;
+     }
+  }
+  if (mouseX > (smoothpX - 15) && mouseX < (smoothpX + 15) && mouseY > (smoothpY - 15) && mouseY < (smoothpY + 15) && (smoothness != 0)) {
+  smoothness = (smoothness - 1);
+  if (smoothness < 1) {
+    smoothness = 1;
+  }
+  }
+  if (mouseX > (quitX - 15) && mouseX < (quitX + 15) && mouseY > (quitY - 15) && mouseY < (quitY + 15)) {
+  exit();
+  }
+}
 
 void mouseReleased()
 {
   down = false;
+}
+void keyPressed()
+{
+  save("exported.png");
 }
